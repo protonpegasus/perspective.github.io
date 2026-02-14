@@ -1,1 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Perspective — Nature Photography by Shabna Mehabooba</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--cream:#e8e0d4;--warm:#f0ebe3;--stone:#a89880;--bark:#5c5248;--ink:#1a1714;--sage:#6a8267;--accent:#4e7252;}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--warm);color:var(--ink);font-family:'Jost',sans-serif;font-weight:300;overflow-x:hidden;}
 
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:20px 52px;background:rgba(26,23,20,0.93);backdrop-filter:blur(16px);border-bottom:1px solid rgba(168,152,128,0.15);}
+    .nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+    .nav-logo-text{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;letter-spacing:0.14em;color:var(--cream);text-transform:uppercase;}
+    .nav-links{display:flex;gap:40px;list-style:none;}
+    .nav-links a{font-size:10px;letter-spacing:0.26em;text-transform:uppercase;color:var(--stone);text-decoration:none;transition:color .3s;}
+    .nav-links a:hover{color:var(--cream);}
+
+    /* HERO */
+    .hero{position:relative;height:100vh;overflow:hidden;}
+    .hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.8s ease;}
+    .hero-slide.active{opacity:1;}
+    .hero-slide img{width:100%;height:100%;object-fit:cover;object-position:center 45%;display:block;transform:scale(1.06);animation:zoomout 9s ease forwards;}
+    @keyframes zoomout{from{transform:scale(1.06);}to{transform:scale(1.0);}}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(160deg,rgba(26,23,20,0.15) 0%,rgba(26,23,20,0.0) 38%,rgba(26,23,20,0.0) 54%,rgba(26,23,20,0.58) 82%,rgba(26,23,20,0.84) 100%);}
+    .hero-left-bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,transparent,rgba(200,221,208,0.5),transparent);}
+    .hero-content{position:absolute;bottom:0;left:0;right:0;padding:0 60px 72px;display:flex;justify-content:space-between;align-items:flex-end;}
+    .hero-eyebrow{font-size:10px;letter-spacing:0.42em;text-transform:uppercase;color:rgba(200,221,208,0.7);margin-bottom:14px;animation:fadeUp .9s ease .15s both;}
+    .hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(56px,8.5vw,112px);font-weight:300;line-height:0.93;color:#fff;animation:fadeUp .9s ease .3s both;text-shadow:0 4px 48px rgba(0,0,0,0.3);}
+    .hero-title em{font-style:italic;color:rgba(200,221,208,0.9);}
+    .hero-sub{font-size:13px;letter-spacing:0.06em;color:rgba(232,224,212,0.58);max-width:380px;line-height:1.95;margin-top:22px;animation:fadeUp .9s ease .45s both;}
+    .hero-right{text-align:right;animation:fadeUp .9s ease .55s both;padding-bottom:4px;}
+    .hero-cta{display:inline-flex;align-items:center;gap:14px;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--cream);text-decoration:none;border:1px solid rgba(232,224,212,0.28);padding:14px 28px;margin-bottom:24px;transition:all .35s ease;}
+    .hero-cta:hover{background:rgba(232,224,212,0.1);border-color:rgba(232,224,212,0.65);gap:22px;}
+    .hero-dots{display:flex;gap:8px;justify-content:flex-end;}
+    .hero-dot{width:32px;height:2px;background:rgba(232,224,212,0.22);cursor:pointer;transition:all .4s;border:none;}
+    .hero-dot.active{background:rgba(200,221,208,0.88);width:50px;}
+    .slide-label{position:absolute;top:120px;right:52px;writing-mode:vertical-rl;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(232,224,212,0.32);animation:fadeUp .9s ease .7s both;}
+    .scroll-hint{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:7px;animation:fadeUp 1s ease 1s both;}
+    .scroll-hint span{font-size:8px;letter-spacing:0.34em;text-transform:uppercase;color:rgba(232,224,212,0.35);}
+    .scroll-line{width:1px;height:32px;background:linear-gradient(to bottom,rgba(200,221,208,0.5),transparent);animation:scrollPulse 2.2s ease-in-out infinite;}
+    @keyframes scrollPulse{0%,100%{opacity:.3;}50%{opacity:1;}}
+
+    /* INTRO STRIP */
+    .intro-strip{background:#1c1915;padding:0 52px;display:grid;grid-template-columns:repeat(3,1fr);}
+    .intro-item{text-align:center;padding:44px 32px;border-right:1px solid rgba(168,152,128,0.1);}
+    .intro-item:last-child{border-right:none;}
+    .intro-num{font-family:'Cormorant Garamond',serif;font-size:54px;font-weight:300;color:var(--cream);line-height:1;margin-bottom:8px;}
+    .intro-label{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--stone);}
+
+    /* GALLERY */
+    .gallery-section{padding:90px 52px;}
+    .section-eyebrow{font-size:10px;letter-spacing:0.32em;text-transform:uppercase;color:var(--sage);margin-bottom:10px;}
+    .section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,3.5vw,48px);font-weight:300;color:var(--ink);margin-bottom:44px;}
+    .section-title em{font-style:italic;color:var(--accent);}
+    .tab-bar{display:flex;border-bottom:1px solid rgba(168,152,128,0.22);margin-bottom:44px;overflow-x:auto;}
+    .tab-btn{font-size:10px;letter-spacing:0.24em;text-transform:uppercase;color:var(--stone);background:none;border:none;border-bottom:2px solid transparent;padding:14px 28px;cursor:pointer;transition:all .3s;white-space:nowrap;margin-bottom:-1px;}
+    .tab-btn:hover{color:var(--ink);}
+    .tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
+    .tab-panel{display:none;}
+    .tab-panel.active{display:block;}
+    .gallery-grid{column-count:3;column-gap:12px;}
+    .gallery-item{break-inside:avoid;margin-bottom:12px;position:relative;overflow:hidden;cursor:pointer;display:block;}
+    .gallery-item img{width:100%;display:block;transition:transform .65s cubic-bezier(.25,.46,.45,.94);}
+    .gallery-item:hover img{transform:scale(1.05);}
+    .gallery-overlay{position:absolute;bottom:0;left:0;right:0;padding:44px 18px 18px;background:linear-gradient(to top,rgba(26,23,20,.82),transparent);transform:translateY(101%);transition:transform .42s cubic-bezier(.25,.46,.45,.94);}
+    .gallery-item:hover .gallery-overlay{transform:translateY(0);}
+    .overlay-title{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;color:#fff;margin-bottom:3px;}
+    .overlay-tag{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(232,224,212,.58);}
+
+    /* LIGHTBOX */
+    .lightbox{display:none;position:fixed;inset:0;background:rgba(14,12,10,0.97);z-index:999;align-items:center;justify-content:center;padding:32px;}
+    .lightbox.open{display:flex;}
+    .lightbox img{max-width:90vw;max-height:90vh;object-fit:contain;display:block;box-shadow:0 32px 80px rgba(0,0,0,0.7);}
+    .lb-close{position:absolute;top:22px;right:32px;font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--stone);cursor:pointer;background:none;border:none;transition:color .3s;}
+    .lb-close:hover{color:var(--cream);}
+    .lb-caption{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);text-align:center;white-space:nowrap;}
+    .lb-caption-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--cream);margin-bottom:4px;}
+    .lb-caption-tag{font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--stone);}
+
+    /* ABOUT */
+    .about-section{padding:100px 52px;background:#1e1b18;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+    .about-visual{position:relative;}
+    .about-img{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:center top;display:block;}
+    .about-corner{position:absolute;width:60px;height:60px;}
+    .about-corner.tl{top:-16px;left:-16px;border-top:1px solid rgba(168,152,128,0.5);border-left:1px solid rgba(168,152,128,0.5);}
+    .about-corner.br{bottom:-16px;right:-16px;border-bottom:1px solid rgba(168,152,128,0.5);border-right:1px solid rgba(168,152,128,0.5);}
+    .about-eyebrow{font-size:10px;letter-spacing:0.32em;text-transform:uppercase;color:var(--sage);margin-bottom:18px;}
+    .about-name{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,3.8vw,52px);font-weight:300;line-height:1.1;color:var(--cream);margin-bottom:12px;}
+    .about-name em{font-style:italic;color:var(--sage);}
+    .about-location{display:flex;align-items:center;gap:8px;font-size:11px;letter-spacing:0.16em;color:var(--stone);margin-bottom:28px;}
+    .about-bio{font-size:14px;line-height:2.05;color:var(--stone);margin-bottom:16px;}
+    .about-stats{display:flex;gap:36px;margin-top:44px;padding-top:36px;border-top:1px solid rgba(168,152,128,0.18);}
+    .stat-num{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;color:var(--cream);line-height:1;margin-bottom:6px;}
+    .stat-label{font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--stone);}
+    .gear-title{font-size:10px;letter-spacing:0.26em;text-transform:uppercase;color:var(--sage);margin:36px 0 14px;}
+    .gear-list{display:flex;flex-wrap:wrap;gap:8px;}
+    .gear-tag{font-size:10px;letter-spacing:0.1em;color:var(--stone);border:1px solid rgba(168,152,128,0.22);padding:5px 14px;}
+
+    /* FOOTER */
+    footer{padding:48px 52px;background:var(--ink);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px;border-top:1px solid rgba(168,152,128,0.08);}
+    .footer-brand{display:flex;align-items:center;gap:10px;}
+    .footer-logo-text{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;letter-spacing:0.16em;text-transform:uppercase;color:var(--cream);}
+    .footer-tag{font-size:9px;letter-spacing:0.24em;text-transform:uppercase;color:var(--stone);margin-top:5px;}
+    .footer-links{display:flex;gap:32px;list-style:none;}
+    .footer-links a{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--stone);text-decoration:none;transition:color .3s;}
+    .footer-links a:hover{color:var(--cream);}
+    .footer-copy{width:100%;text-align:center;font-size:10px;color:rgba(168,152,128,0.32);padding-top:28px;border-top:1px solid rgba(168,152,128,0.07);margin-top:4px;letter-spacing:0.1em;}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+
+    @media(max-width:900px){
+      nav{padding:18px 24px;}
+      .hero-content{padding:0 28px 52px;flex-direction:column;align-items:flex-start;gap:24px;}
+      .slide-label{display:none;}
+      .intro-strip{grid-template-columns:1fr;padding:0 24px;}
+      .intro-item{border-right:none;border-bottom:1px solid rgba(168,152,128,0.1);padding:32px 20px;}
+      .gallery-section{padding:60px 24px;}
+      .gallery-grid{column-count:2;}
+      .about-section{grid-template-columns:1fr;padding:60px 24px;gap:48px;}
+      footer{padding:36px 24px;}
+    }
+    @media(max-width:560px){.gallery-grid{column-count:1;}}
+  </style>
+</head>
+<body>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" onclick="closeLightbox()">✕ Close</button>
+  <img id="lb-img" src="" alt=""/>
+  <div class="lb-caption">
+    <p class="lb-caption-title" id="lb-title"></p>
+    <p class="lb-caption-tag" id="lb-tag"></p>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-brand">
+    <svg width="30" height="30" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 19 C7 9, 16 5, 24 7 C19 7, 16 11, 18.5 15 C14 13, 7 15, 2 19Z" fill="#c8ddd0"/>
+      <path d="M18.5 15 C21 10, 27 7, 31 9 C27.5 8.5, 25 11.5, 23 16 C21.5 15.2, 20 15, 18.5 15Z" fill="#c8ddd0" opacity="0.72"/>
+      <path d="M18.5 15 C20 17.5, 19 22, 16 26 C17 22, 17.5 18.5, 18.5 15Z" fill="#c8ddd0" opacity="0.88"/>
+    </svg>
+    <span class="nav-logo-text">Perspective</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="mailto:shabna@email.com">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-slide active" id="slide-0">
+    <img src="images/moraine-lake.jpg" alt="Moraine Lake"/>
+    <div class="hero-overlay"></div>
+  </div>
+  <div class="hero-slide" id="slide-1">
+    <img src="images/mountain-sunset.jpg" alt="Mountain Sunset"/>
+    <div class="hero-overlay"></div>
+  </div>
+  <div class="hero-slide" id="slide-2">
+    <img src="images/winter-forest.jpg" alt="Winter Forest"/>
+    <div class="hero-overlay"></div>
+  </div>
+  <div class="hero-slide" id="slide-3">
+    <img src="images/mountain-clouds.jpg" alt="Rocky Mountain Peaks"/>
+    <div class="hero-overlay"></div>
+  </div>
+  <div class="hero-left-bar"></div>
+  <p class="slide-label" id="slide-label">Moraine Lake · Banff</p>
+  <div class="hero-content">
+    <div class="hero-left">
+      <p class="hero-eyebrow">Nature · Birds · Landscape</p>
+      <h1 class="hero-title">The world as<br>it <em>truly is</em></h1>
+      <p class="hero-sub">Documenting the quiet grandeur of the natural world — from the piercing gaze of an owl at dusk to the silence of a frozen mountain lake at dawn.</p>
+    </div>
+    <div class="hero-right">
+      <a href="#gallery" class="hero-cta">Explore the gallery →</a>
+      <div class="hero-dots">
+        <button class="hero-dot active" onclick="goSlide(0)"></button>
+        <button class="hero-dot" onclick="goSlide(1)"></button>
+        <button class="hero-dot" onclick="goSlide(2)"></button>
+        <button class="hero-dot" onclick="goSlide(3)"></button>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint"><span>Scroll</span><div class="scroll-line"></div></div>
+</section>
+
+<!-- INTRO STRIP -->
+<div class="intro-strip">
+  <div class="intro-item"><p class="intro-num">4+</p><p class="intro-label">Years in the Field</p></div>
+  <div class="intro-item"><p class="intro-num">70+</p><p class="intro-label">Species Captured</p></div>
+  <div class="intro-item"><p class="intro-num">17</p><p class="intro-label">Works in Portfolio</p></div>
+</div>
+
+<!-- GALLERY -->
+<section class="gallery-section" id="gallery">
+  <p class="section-eyebrow">Portfolio</p>
+  <h2 class="section-title">Selected <em>Works</em></h2>
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('all',this)">All Work</button>
+    <button class="tab-btn" onclick="switchTab('birds',this)">Birds</button>
+    <button class="tab-btn" onclick="switchTab('landscape',this)">Landscape</button>
+    <button class="tab-btn" onclick="switchTab('wildlife',this)">Wildlife</button>
+    <button class="tab-btn" onclick="switchTab('flora',this)">Flora</button>
+  </div>
+
+  <!-- ALL -->
+  <div class="tab-panel active" id="tab-all">
+    <div class="gallery-grid">
+      <div class="gallery-item" onclick="openLightbox('images/owl-great-horned.jpg','Great Horned Owl','Birds · Portrait')"><img src="images/owl-great-horned.jpg" alt="Great Horned Owl" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Great Horned Owl</p><p class="overlay-tag">Birds · Portrait</p></div></div>
+      <div class="gallery-item" onclick="openLightbox('images/moraine-lake.jpg','Moraine Lake at Dawn','Landscape · Reflection')"><img src="images/moraine-lake.jpg" alt="Moraine Lake" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Moraine Lake at Dawn</p><p class="overlay-tag">Landscape · Reflection</p></div></div>
+      <div class="gallery-item" onclick="openLightbox('images/owl-screech.jpg','Eastern Screech Owl','Birds · Portrait')"><img src="images/owl-screech.jpg" alt="Eastern Screech Owl" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Eastern Screech Owl</p><p class="overlay-tag">Birds · Portrait</p></div></div>
+      <div class="gallery-item" onclick="openLightbox('images/tree-winter.jpg','Lone Tree in Winter','Landscape · Minimalist')"><img src="images/tree-winter.jpg" alt="Lone Tree in Winter" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Lone Tree in Winter</p><p class="overlay-tag">Landscape · Minimalist</p></div></div>
+      <div class="gallery-item" onclick="openLightbox('images/dandelion.jpg','Dandelion at Dusk','Flora · Macro')"><img src="images/dandelion.jpg" alt="Dandelion" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Dandelion at Dusk</p><p class="overlay-tag">Flora · Macro</p></div></div>
+      <div class="gallery-item" onclick="openLightbox('images/yellowthroat.jpg','Common Yellowthroat','Birds · Songbird')"><img src="images/yellowthroat.jpg" alt="Common Yellowthroat" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Common Yellowthroat</p><p class="overlay-tag">Birds · Songbird</p></div></div>
+      <div class="gallery-item" onclick="openLightbox('images/hawk.jpg','Red-tailed Hawk','Birds · Raptor')"><img src="images/hawk.jpg" alt="Red-tailed Hawk" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Red-tailed Hawk</p><p class="overlay-tag">Birds · Raptor</p></div></div>
+      <div class="gallery-item" onclick="openLightbox('images/bighorn.jpg','Bighorn Sheep','Wildlife · Mountain')"><img src="images/bighorn.jpg" alt="Bighorn Sheep" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Bighorn Sheep</p><p class="overlay-tag">Wildlife · Mountain</p></div></div>
+      <div class="gallery-item" onclick="openLightbox('images/foggy-road.jpg','Foggy Forest Road','Landscape · Moody')"><img src="images/foggy-road.jpg" alt="Foggy Forest Road" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Foggy Forest Road</p><p class="overlay-tag">Landscape · Moody</p></div></div>
+      <div class="gallery-item" onclick="openLightbox('images/mountain-sunset.jpg','Mountain Sunset','Landscape · Dusk')"><img src="images/mountain-sunset.jpg" alt="Mountain Sunset" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Mountain Sunset</p><p class="overlay-tag">Landscape · Dusk</p></div></div>
+      <div class="gallery-item" onclick="openLightbox('images/mountain-clouds.jpg','Rocky Mountain Peaks','Landscape · Mountain')"><img src="images/mountain-clouds.jpg" alt="Rocky Mountain Peaks" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Rocky Mountain Peaks</p><p class="overlay-tag">Landscape · Mountain</p></div></div>
+      <div class="gallery-item" onclick="openLightbox('images/owl-snowy.jpg','Snowy Owl','Birds · Winter')"><img src="images/owl-snowy.jpg" alt="Snowy Owl" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Snowy Owl</p><p class="overlay-tag">Birds · Winter</p></div></div>
+      <div class="gallery-item" onclick="openLightbox('images/owl-barred.jpg','Barred Owl','Birds · Portrait')"><img src="images/owl-barred.jpg" alt="Barred Owl" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Barred Owl</p><p class="overlay-tag">Birds · Portrait</p></div></div>
+      <div class="gallery-item" onclick="openLightbox('images/rabbit.jpg','Cottontail Rabbit','Wildlife · Meadow')"><img src="images/rabbit.jpg" alt="Cottontail Rabbit" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Cottontail Rabbit</p><p class="overlay-tag">Wildlife · Meadow</p></div></div>
+      <div class="gallery-item" onclick="openLightbox('images/squirrel.jpg','Ground Squirrel','Wildlife · Grassland')"><img src="images/squirrel.jpg" alt="Ground Squirrel" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Ground Squirrel</p><p class="overlay-tag">Wildlife · Grassland</p></div></div>
+      <div class="gallery-item" onclick="openLightbox('images/frozen-lake.jpg','Frozen Lake','Landscape · Winter')"><img src="images/frozen-lake.jpg" alt="Frozen Lake" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Frozen Lake</p><p class="overlay-tag">Landscape · Winter</p></div></div>
+      <div class="gallery-item" onclick="openLightbox('images/winter-forest.jpg','Winter Forest','Landscape · Winter')"><img src="images/winter-forest.jpg" alt="Winter Forest" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Winter Forest</p><p class="overlay-tag">Landscape · Winter</p></div></div>
+    </div>
+  </div>
+
+  <!-- BIRDS -->
+  <div class="tab-panel" id="tab-birds">
+    <div class="gallery-grid">
+      <div class="gallery-item" onclick="openLightbox('images/owl-great-horned.jpg','Great Horned Owl','Birds · Portrait')"><img src="images/owl-great-horned.jpg" alt="Great Horned Owl" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Great Horned Owl</p><p class="overlay-tag">Birds · Portrait</p></div></div>
+      <div class="gallery-item" onclick="openLightbox('images/owl-screech.jpg','Eastern Screech Owl','Birds · Portrait')"><img src="images/owl-screech.jpg" alt="Eastern Screech Owl" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Eastern Screech Owl</p><p class="overlay-tag">Birds · Portrait</p></div></div>
+      <div class="gallery-item" onclick="openLightbox('images/yellowthroat.jpg','Common Yellowthroat','Birds · Songbird')"><img src="images/yellowthroat.jpg" alt="Common Yellowthroat" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Common Yellowthroat</p><p class="overlay-tag">Birds · Songbird</p></div></div>
+      <div class="gallery-item" onclick="openLightbox('images/hawk.jpg','Red-tailed Hawk','Birds · Raptor')"><img src="images/hawk.jpg" alt="Red-tailed Hawk" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Red-tailed Hawk</p><p class="overlay-tag">Birds · Raptor</p></div></div>
+      <div class="gallery-item" onclick="openLightbox('images/owl-snowy.jpg','Snowy Owl','Birds · Winter')"><img src="images/owl-snowy.jpg" alt="Snowy Owl" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Snowy Owl</p><p class="overlay-tag">Birds · Winter</p></div></div>
+      <div class="gallery-item" onclick="openLightbox('images/owl-barred.jpg','Barred Owl','Birds · Portrait')"><img src="images/owl-barred.jpg" alt="Barred Owl" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Barred Owl</p><p class="overlay-tag">Birds · Portrait</p></div></div>
+    </div>
+  </div>
+
+  <!-- LANDSCAPE -->
+  <div class="tab-panel" id="tab-landscape">
+    <div class="gallery-grid">
+      <div class="gallery-item" onclick="openLightbox('images/moraine-lake.jpg','Moraine Lake at Dawn','Landscape · Reflection')"><img src="images/moraine-lake.jpg" alt="Moraine Lake" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Moraine Lake at Dawn</p><p class="overlay-tag">Landscape · Reflection</p></div></div>
+      <div class="gallery-item" onclick="openLightbox('images/mountain-sunset.jpg','Mountain Sunset','Landscape · Dusk')"><img src="images/mountain-sunset.jpg" alt="Mountain Sunset" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Mountain Sunset</p><p class="overlay-tag">Landscape · Dusk</p></div></div>
+      <div class="gallery-item" onclick="openLightbox('images/tree-winter.jpg','Lone Tree in Winter','Landscape · Minimalist')"><img src="images/tree-winter.jpg" alt="Lone Tree in Winter" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Lone Tree in Winter</p><p class="overlay-tag">Landscape · Minimalist</p></div></div>
+      <div class="gallery-item" onclick="openLightbox('images/foggy-road.jpg','Foggy Forest Road','Landscape · Moody')"><img src="images/foggy-road.jpg" alt="Foggy Forest Road" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Foggy Forest Road</p><p class="overlay-tag">Landscape · Moody</p></div></div>
+      <div class="gallery-item" onclick="openLightbox('images/mountain-clouds.jpg','Rocky Mountain Peaks','Landscape · Mountain')"><img src="images/mountain-clouds.jpg" alt="Rocky Mountain Peaks" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Rocky Mountain Peaks</p><p class="overlay-tag">Landscape · Mountain</p></div></div>
+      <div class="gallery-item" onclick="openLightbox('images/frozen-lake.jpg','Frozen Lake','Landscape · Winter')"><img src="images/frozen-lake.jpg" alt="Frozen Lake" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Frozen Lake</p><p class="overlay-tag">Landscape · Winter</p></div></div>
+      <div class="gallery-item" onclick="openLightbox('images/winter-forest.jpg','Winter Forest','Landscape · Winter')"><img src="images/winter-forest.jpg" alt="Winter Forest" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Winter Forest</p><p class="overlay-tag">Landscape · Winter</p></div></div>
+    </div>
+  </div>
+
+  <!-- WILDLIFE -->
+  <div class="tab-panel" id="tab-wildlife">
+    <div class="gallery-grid">
+      <div class="gallery-item" onclick="openLightbox('images/bighorn.jpg','Bighorn Sheep','Wildlife · Mountain')"><img src="images/bighorn.jpg" alt="Bighorn Sheep" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Bighorn Sheep</p><p class="overlay-tag">Wildlife · Mountain</p></div></div>
+      <div class="gallery-item" onclick="openLightbox('images/rabbit.jpg','Cottontail Rabbit','Wildlife · Meadow')"><img src="images/rabbit.jpg" alt="Cottontail Rabbit" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Cottontail Rabbit</p><p class="overlay-tag">Wildlife · Meadow</p></div></div>
+      <div class="gallery-item" onclick="openLightbox('images/squirrel.jpg','Ground Squirrel','Wildlife · Grassland')"><img src="images/squirrel.jpg" alt="Ground Squirrel" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Ground Squirrel</p><p class="overlay-tag">Wildlife · Grassland</p></div></div>
+    </div>
+  </div>
+
+  <!-- FLORA -->
+  <div class="tab-panel" id="tab-flora">
+    <div class="gallery-grid">
+      <div class="gallery-item" onclick="openLightbox('images/dandelion.jpg','Dandelion at Dusk','Flora · Macro')"><img src="images/dandelion.jpg" alt="Dandelion" loading="lazy"/><div class="gallery-overlay"><p class="overlay-title">Dandelion at Dusk</p><p class="overlay-tag">Flora · Macro</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="about-visual">
+    <div class="about-corner tl"></div>
+    <img src="images/portrait.png" alt="Shabna Mehabooba" class="about-img"/>
+    <div class="about-corner br"></div>
+  </div>
+  <div>
+    <p class="about-eyebrow">The Photographer</p>
+    <h2 class="about-name">Shabna<br><em>Mehabooba</em></h2>
+    <p class="about-location">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6a8267" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+      Ontario, Canada
+    </p>
+    <p class="about-bio">Based in Ontario, Canada, Shabna spends her days chasing light through forests, wetlands, and open skies. With four years behind the lens, her work is rooted in patience — the kind that teaches you to sit still long enough for an owl to turn its gaze, or for the clouds to part at exactly the right moment over a mountain lake.</p>
+    <p class="about-bio">Every photograph is an invitation to slow down and notice what has always been there.</p>
+    <div class="about-stats">
+      <div><p class="stat-num">4+</p><p class="stat-label">Years Shooting</p></div>
+      <div><p class="stat-num">70+</p><p class="stat-label">Species Captured</p></div>
+      <div><p class="stat-num">ON</p><p class="stat-label">Ontario, Canada</p></div>
+    </div>
+    <p class="gear-title">Equipment</p>
+    <div class="gear-list">
+      <span class="gear-tag">Sony A7R V</span>
+      <span class="gear-tag">DJI Mini 4 Pro</span>
+      <span class="gear-tag">Gitzo Tripod</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-brand">
+      <svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 19 C7 9, 16 5, 24 7 C19 7, 16 11, 18.5 15 C14 13, 7 15, 2 19Z" fill="#6a8267"/>
+        <path d="M18.5 15 C21 10, 27 7, 31 9 C27.5 8.5, 25 11.5, 23 16 C21.5 15.2, 20 15, 18.5 15Z" fill="#6a8267" opacity="0.7"/>
+        <path d="M18.5 15 C20 17.5, 19 22, 16 26 C17 22, 17.5 18.5, 18.5 15Z" fill="#6a8267" opacity="0.85"/>
+      </svg>
+      <div>
+        <p class="footer-logo-text">Perspective</p>
+        <p class="footer-tag">Nature · Birds · Landscape · Ontario, Canada</p>
+      </div>
+    </div>
+  </div>
+  <ul class="footer-links">
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="https://instagram.com/shabzay21" target="_blank">Instagram</a></li>
+    <li><a href="mailto:shabna@email.com">Contact</a></li>
+  </ul>
+  <p class="footer-copy">© 2026 Perspective · Shabna Mehabooba · All photographs are the sole property of the photographer</p>
+</footer>
+
+<script>
+  const slideLabels = ['Moraine Lake · Banff','Mount Rundle at Sunset · Banff','Winter Forest · British Columbia','Rocky Mountain Peaks · Rockies'];
+  let cur = 0;
+  const slides = document.querySelectorAll('.hero-slide');
+  const dots   = document.querySelectorAll('.hero-dot');
+
+  function goSlide(n) {
+    slides[cur].classList.remove('active'); dots[cur].classList.remove('active');
+    cur = n;
+    slides[cur].classList.add('active'); dots[cur].classList.add('active');
+    document.getElementById('slide-label').textContent = slideLabels[n];
+    const img = slides[cur].querySelector('img');
+    img.style.animation='none'; img.offsetHeight; img.style.animation='';
+  }
+  setInterval(()=>{goSlide((cur+1)%4);},7000);
+
+  function switchTab(tab,btn){
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.getElementById('tab-'+tab).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  function openLightbox(src,title,tag){
+    document.getElementById('lb-img').src=src;
+    document.getElementById('lb-title').textContent=title;
+    document.getElementById('lb-tag').textContent=tag;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow='hidden';
+  }
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow='';
+  }
+  document.getElementById('lightbox').addEventListener('click',function(e){if(e.target===this)closeLightbox();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();});
+</script>
+</body>
+</html>
